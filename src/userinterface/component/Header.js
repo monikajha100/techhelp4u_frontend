@@ -17,10 +17,11 @@ export default function Header() {
 
   const pages = [
     { name: 'Home', path: '/Homepage' },
-    { name: 'blog', path: '/Blog' },
+    { name: 'event', path: '/Event' },
     { name: 'Contact', path: '/Contact' },
      { name: 'About', path: '/About' },
       { name: 'Team', path: '/Team' },
+      { name: 'Workshop', path: '/Workshop' },
   ];
 
   const handleOpenDrawer = () => {
@@ -88,7 +89,8 @@ export default function Header() {
     color: '#fff', // original white color
     fontSize: 16,
     fontWeight: 600,
-    fontFamily: `"ui-sans-serif", "system-ui", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif"`,
+    fontFamily: `ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif`,
     backgroundColor: 'transparent',
     boxShadow: 'none',
     transition: 'color 0.3s',
@@ -105,7 +107,7 @@ export default function Header() {
           )}
 
           {/* Right Side Buttons */}
-          <div
+          {/* <div
             style={{
               width: 200,
               display: 'flex',
@@ -117,7 +119,7 @@ export default function Header() {
           >
             {!matches && (
               <MuiLink
-                href="#"
+                href="signupwithotp"
                 underline="none"
                 style={{
                  width: 100,
@@ -154,7 +156,7 @@ export default function Header() {
 </Button>
 
             )}
-          </div>
+          </div> */}
         </Toolbar>
       </AppBar>
 

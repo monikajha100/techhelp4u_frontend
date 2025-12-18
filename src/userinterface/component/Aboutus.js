@@ -1,5 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import Explore from './Explore';
+
 
 export default function Aboutus() {
   return (
@@ -25,16 +27,30 @@ export default function Aboutus() {
                 className="w-full px-4 lg:w-1/2"
               >
                 <div className="mb-11 max-w-[570px]">
-                  <h1 className="mb-5 text-2xl font-bold text-black dark:text-white sm:text-3xl">
-                    About TECHhelp4U
-                  </h1>
-                  <p className="text-base font-medium leading-relaxed text-gray-600 dark:text-gray-300">
-                    TECHhelp4U is a forward-thinking community built for aspiring developers, designers, and tech enthusiasts. We thrive on collaboration, real-world learning, and innovation. From bootcamps and tech meetups to mentorship and networking, we help individuals become confident contributors to the world of technology.
-                  </p>
+                  <h1
+  style={{
+    fontFamily:
+      'ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif',
+  }}
+  className="mt-10 text-6xl sm:text-3xl font-bold leading-tight mb-9 animate-fade-up ml-5"
+>
+                  About TechHelp4U
+                </h1>
+                <div className="text-base font-medium leading-relaxed text-gray-600 dark:text-gray-500 ml-6">
+                  We're not just a community — we're a movement.
+
+                  
+
+                TECHhelp4U was born out of a belief: students understand students best.
+We're here to bridge the gap between what's taught and what's needed.
+From hands-on workshops to heartfelt mentorship, we're building a space where curiosity leads, confidence grows, and skills speak louder than words.
+
+<p>Here, every question is welcomed, every effort is celebrated, and every learner becomes a leader.</p>
+</div>
                   <a
                     href="/About"
-                    className="inline-block mt-6 rounded-lg bg-blue-600 px-6 py-3 text-white font-semibold shadow-md hover:bg-blue-700 transition"
-                  >
+                    className="inline-block mt-6 rounded-lg bg-blue-700 px-5 py-3 text-xs text-white font-medium shadow-md hover:bg-blue-600 transition ml-9">
+
                     Learn More About Us
                   </a>
                 </div>
@@ -60,7 +76,9 @@ export default function Aboutus() {
             </div>
           </div>
         </div>
+
       </section>
+
     </div>
   );
 }

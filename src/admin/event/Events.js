@@ -14,6 +14,8 @@ const [location,setlocation]=useState('')
  const [date,setdate]=useState('')
  const [time,setTime]=useState('')
   const [type,settype]=useState('')
+  const [status,setstatus]=useState('')
+  
     const [eventdescription,seteventdescription]=useState('')
     const[icon,setIcon]=useState({bytes:'',filename:'add-group.png'})
     const [error,seterror]=useState({filename:''})
@@ -26,6 +28,7 @@ const [location,setlocation]=useState('')
         setTime("")
         setdate("")
         settype("")
+        setstatus("")
         setlocation("")
         seteventdescription("")
        
@@ -57,6 +60,10 @@ const [location,setlocation]=useState('')
             handleError('type',"description should not be blank")
             error=true
         }
+        if (status.length==0){
+            handleError('status',"description should not be blank")
+            error=true
+        }
         
         
         if (icon.bytes.length == 0) {
@@ -73,6 +80,7 @@ const [location,setlocation]=useState('')
        formData.append("date", date);
           formData.append("time", time);
              formData.append("type", type);
+             formData.append("status", status);
              formData.append("location", location);
     formData.append("eventdescription", eventdescription);
     formData.append("icon", icon.bytes);
@@ -151,18 +159,51 @@ const [location,setlocation]=useState('')
   onChange={(e) => setdate(e.target.value)}
 />
 </Grid>
+  
   <Grid size={12}>
             <FormControl fullWidth>
-              <InputLabel> workshop Status</InputLabel>
+              <InputLabel> type </InputLabel>
               <Select
                 value={type}
                 error={error?.type}
                 onFocus={() => handleError("type", null)}
                 label="type"
                 onChange={(e) => settype(e.target.value)}
-              >  <MenuItem value="Latest">Latest</MenuItem>
-                <MenuItem value="Upcoming">Upcoming</MenuItem>
-                <MenuItem value="Old">Old</MenuItem>
+              >  <MenuItem value="worskhop">workshops</MenuItem>
+                <MenuItem value="seminar">seminar</MenuItem>
+                <MenuItem value="webinar">webinar</MenuItem>
+                <MenuItem value="Festival">Festival</MenuItem>
+                <MenuItem value="Competetion">Competetion</MenuItem>
+                <MenuItem value="Conference">Conference</MenuItem>
+                <MenuItem value="Meetup">Meetup</MenuItem>
+                <MenuItem value="Celebration">Celebration</MenuItem>
+                <MenuItem value="Event">Event</MenuItem>
+                <MenuItem value="Training">Training</MenuItem>
+                <MenuItem value="Lounch">Lounch</MenuItem>
+
+              
+              </Select>
+              <FormHelperText>
+  <span className={classes.error}>{error?.type}</span> ✅
+</FormHelperText>
+
+            </FormControl>
+          </Grid>
+            <Grid size={12}>
+            <FormControl fullWidth>
+              <InputLabel>Status </InputLabel>
+              <Select
+                value={status}
+                error={error?.type}
+                onFocus={() => handleError("status", null)}
+                label="status"
+                onChange={(e) => setstatus(e.target.value)}
+              >  <MenuItem value="Upcoming">upcoming</MenuItem>
+                <MenuItem value="ongoing">ongoing</MenuItem>
+                <MenuItem value="cancelled">cancelled</MenuItem>
+                <MenuItem value="Past">past</MenuItem>
+                <MenuItem value="schedule">schedule</MenuItem>
+               
               
               </Select>
               <FormHelperText>

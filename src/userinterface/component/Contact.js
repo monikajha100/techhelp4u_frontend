@@ -1,136 +1,156 @@
-import React from 'react';
-import MaterialTable from "@material-table/core";
-import Grid from '@mui/material/Grid';
-
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { postData } from "../../services/Fetchnodeservices";
-import { useState } from "react";
 import Swal from "sweetalert2";
-import { Button, Divider, TextField } from "@mui/material";
-  export default function Contactus() {
-    
-    const [name, setname] = useState('');
-    const [email, setemail] = useState('');
-    const [phone, setphone] = useState('');
-    const [message, setmessage] = useState('');
+import Explore from './Explore';
 
-    const clearData = () => {
-      setname('')
-      setemail('')
-      setphone('')
-      setmessage('')
-    }
-    const handleclick = async () => {
-      var body = { "name": name, 'phone': phone, 'email': email, 'message': message }
-      var response = await postData('contactus/submit_contact', body)
+export default function Contactus() {
+  const [name, setname] = useState('');
+  const [email, setemail] = useState('');
+  const [subject, setsubject] = useState('');
+  const [message, setmessage] = useState('');
 
-      if (response.status) {
+  const clearData = () => {
+    setname('');
+    setemail('');
+    setsubject('');
+    setmessage('');
+  };
+
+  const handleclick = async (e) => {
+    e.preventDefault();
+    const body = { name, email, subject, message };
+    const response = await postData('contactus/submit_contact', body);
+
     Swal.fire({
-      icon: "success",
+      icon: response.status ? "success" : "error",
       toast: true,
       text: response.message,
       background: "#1e293b",
       color: "#e2e8f0",
-      confirmButtonColor: "#3b82f6"
+      confirmButtonColor: response.status ? "#3b82f6" : "#ef4444"
     });
-  } else {
-    Swal.fire({
-      icon: "error",
-      toast: true,
-      text: response.message,
-      background: "#1e293b",
-      color: "#e2e8f0",
-      confirmButtonColor: "#ef4444"
-    });
-  }
 
-      clearData();
-    }
-      ;
+    clearData();
+  };
 
-    return (
-      <div className="bg-[#0f172a] text-[#e2e8f0] font-[Segoe UI]">
-        <section className="py-16 px-4">
+  // === Animation Variants ===
+  const fadeUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: (i = 1) => ({
+      opacity: 1,
+      y: 0,
+      transition: {
+        delay: i * 0.2,
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    })
+  };
 
-          <div className="max-w-[1100px] flex flex-col lg:flex-row justify-between gap-8 mx-auto bg-[#1e293b] rounded-xl px-8 py-10 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+  return (
+    <section id="contact" className="contact section py-5">
+      <div className="container" data-aos="fade-up" data-aos-delay="100">
+        <div className="row gy-4">
 
-            {/* Left Image */}
-            <div className="support-image mt-20">
-              <img
-                src="https://static.vecteezy.com/system/resources/thumbnails/013/800/226/small_2x/close-up-of-businessman-in-black-formal-suit-doing-call-me-sign-finger-gesture-with-showing-phone-3d-illustration-of-businessman-using-phone-png.png"
-                alt="Contact Illustration"
-                className="h-[350px] w-[600px]"
-              />
+          {/* Address Info */}
+          <div className="col-lg-6" data-aos="fade-up" data-aos-delay="200">
+            <div className="info-item d-flex flex-column justify-content-center align-items-center shadow p-4 bg-white rounded">
+              <i className="bi bi-geo-alt fs-2 text-primary mb-2"></i>
+              <h3 className="text-secondary">Address</h3>
+              <p className="text-muted">A108 Adam Street, New York, NY 535022</p>
             </div>
-
-            {/* Right Form */}
-            <div className="w-full">
-              <h2 className="text-3xl mb-2 font-semibold">
-                Need <span className="text-blue-500">Support?</span>
-              </h2>
-              <p className="text-[#94a3b8] mb-6">
-                Fill out the form and our team will get back to you shortly.
-              </p>
-
-             <form className="flex flex-col">
-  <div className="flex flex-wrap gap-4 mb-4">
-    <div className="flex flex-col flex-1 min-w-[45%]">
-      <label className="text-sm mb-2 text-[#d8e2ee]">First Name</label>
-      <input
-        type="text"
-        className="px-4 py-3 bg-[#334155f1] rounded text-white text-base outline-none"
-        placeholder="John"
-        value={name}
-        onChange={(e) => setname(e.target.value)}
-      />
-    </div>
-    <div className="flex flex-col flex-1 min-w-[45%]">
-      <label className="text-sm mb-2 text-[#d8e2ee]">Phone Number</label>
-      <input
-        type="text"
-        className="px-4 py-3 bg-[#334155f1] rounded text-white text-base outline-none"
-        placeholder="1234567890"
-        value={phone}
-        onChange={(e) => setphone(e.target.value)}
-      />
-    </div>
-  </div>
-
-  <div className="flex flex-col mb-4">
-    <label className="text-sm mb-2 text-[#d8e2ee]">Email</label>
-    <input
-      type="email"
-      className="px-4 py-3 bg-[#334155f1] rounded text-white text-base outline-none"
-      placeholder="you@example.com"
-      value={email}
-      onChange={(e) => setemail(e.target.value)}
-    />
-  </div>
-
-  <div className="flex flex-col mb-4">
-    <label className="text-sm mb-2 text-[#d8e2ee]">Message</label>
-    <textarea
-      rows="5"
-      className="px-4 py-3 bg-[#334155f1] rounded text-white text-base outline-none resize-none"
-      placeholder="Your message here..."
-      value={message}
-      onChange={(e) => setmessage(e.target.value)}
-    />
-  </div>
-
-  <button
-    type="button"
-    onClick={handleclick}
-    className="bg-blue-500 text-white px-6 py-3 rounded mt-4 hover:bg-blue-600 transition duration-300 w-fit"
-  >
-    Submit
-  </button>
-</form>
-
-            </div>
-
           </div>
 
-        </section>
+          <div className="col-lg-3" data-aos="fade-up" data-aos-delay="300">
+            <div className="info-item d-flex flex-column justify-content-center align-items-center shadow p-4 bg-white rounded">
+              <i className="bi bi-telephone fs-2 text-primary mb-2"></i>
+              <h3 className="text-secondary">Call Us</h3>
+              <p>+1 5589 55488 55</p>
+            </div>
+          </div>
+
+          <div className="col-lg-3" data-aos="fade-up" data-aos-delay="400">
+            <div className="info-item d-flex flex-column justify-content-center align-items-center shadow p-4 bg-white rounded">
+              <i className="bi bi-envelope fs-2 text-primary mb-2"></i>
+              <h3 className="text-secondary">Email Us</h3>
+              <p>info@example.com</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Contact Form (Bootstrap Style) */}
+        <div className="row gy-4 mt-4">
+          <div className="col-lg-12" data-aos="fade-up" data-aos-delay="500">
+            <motion.form
+              onSubmit={handleclick}
+              className="php-email-form shadow p-4 bg-white rounded"
+              variants={fadeUp}
+              initial="hidden"
+              animate="visible"
+            >
+              <div className="row gy-4">
+                <div className="col-md-6">
+                  <input
+                    type="text"
+                    name="name"
+                    className="form-control rounded-0"
+                    placeholder="Your Name"
+                    value={name}
+                    onChange={(e) => setname(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="col-md-6">
+                  <input
+                    type="email"
+                    name="email"
+                    className="form-control rounded-0"
+                    placeholder="Your Email"
+                    value={email}
+                    onChange={(e) => setemail(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="col-md-12">
+                  <input
+                    type="text"
+                    name="subject"
+                    className="form-control rounded-0"
+                    placeholder="Subject"
+                    value={subject}
+                    onChange={(e) => setsubject(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="col-md-12">
+                  <textarea
+                    name="message"
+                    className="form-control rounded-0"
+                    rows="6"
+                    placeholder="Message"
+                    value={message}
+                    onChange={(e) => setmessage(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="col-md-12 d-flex justify-content-center">
+                  <button
+                    type="submit"
+                    className="btn btn-primary btn-lg px-5 py-2 mt-3 shadow rounded-pill"
+                  >
+                    Send Message
+                  </button>
+                </div>
+              </div>
+            </motion.form>
+          </div>
+        </div>
       </div>
-    );
-  }
+    </section>
+  );
+}

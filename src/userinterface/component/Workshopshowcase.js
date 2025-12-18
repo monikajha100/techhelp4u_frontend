@@ -17,6 +17,7 @@ export default function WorkshopShowcase({ sections = [] }) {
           </defs>
         </svg>
       </span>
+
       <span className="absolute right-0 top-0 z-[-1]">
         <svg width="628" height="258" viewBox="0 0 628 258" fill="none" xmlns="http://www.w3.org/2000/svg">
           <path opacity="0.1" d="M669.125 257.002L345.875 31.9983L524.571 -15.8832L669.125 257.002Z" fill="url(#right-gradient-1)" />
@@ -34,7 +35,7 @@ export default function WorkshopShowcase({ sections = [] }) {
         </svg>
       </span>
 
-      {/* ==== Content ==== */}
+      {/* ==== Workshop Content ==== */}
       <div className="max-w-7xl mx-auto px-4">
         {sections.map((section, idx) => (
           <div key={idx} className="mb-16">
@@ -45,46 +46,44 @@ export default function WorkshopShowcase({ sections = [] }) {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {section.workshops?.map((item, index) => (
                 <motion.div
-                  key={index}
+                  key={item.id || `${item.eventname}-${index}`}
                   initial={{ opacity: 0, y: 40 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.9, delay: index * 0.1 }}
                   className="group overflow-hidden rounded-md bg-white shadow-md hover:shadow-lg dark:bg-gray-800"
                 >
                   <a className="relative block w-full h-[200px] overflow-hidden" href="#">
-                    {/* Badge with type like "upcoming", "latest" */}
-                    <span className="absolute right-4 top-4 z-20 inline-flex items-center justify-center rounded-full bg-blue-600 px-4 py-1 text-xs font-semibold text-white capitalize">
-                      {item.type}
-                    </span>
                     <img
                       className="w-full h-full object-cover"
                       src={`${serverURL}/images/${item.icon}`}
                       alt={item.eventname}
                     />
                   </a>
+
                   <div className="p-6">
                     <h3>
                       <a className="mb-4 block text-xl font-bold text-black dark:text-white hover:text-blue-600" href="#">
                         {item.eventname}
                       </a>
                     </h3>
-                    <p className="mb-4 text-sm text-gray-500 dark:text-gray-300">{item.eventdescription}</p>
+
+                    <p className="mb-4 text-sm text-gray-500 dark:text-gray-300">
+                      {item.eventdescription}
+                    </p>
+
                     <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
                       <div>
-                        <span className="block">{item.location}</span>
-                        <span className="block">{item.date} • {item.time}</span>
+                        <span className="block font-medium">{item.location}</span>
+                      <span className="block">
+  {new Date(item.date).toLocaleDateString('en-GB')}  {/* DD/MM/YYYY */}
+</span>
+
                       </div>
                     </div>
                   </div>
                 </motion.div>
-
               ))}
-       
-
-
-
-
             </div>
           </div>
         ))}

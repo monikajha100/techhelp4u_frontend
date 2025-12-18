@@ -19,6 +19,7 @@ export default function Displayallevent() {
   const classes = useStyles();
   const [events, setEvents] = useState([]);
   const [type,settype]=useState('')
+  const [status,setstatus]=useState('')
   const [id, setid] = useState('');
   const [open, setOpen] = useState(false);
   const [eventname, setEventName] = useState('');
@@ -58,6 +59,7 @@ export default function Displayallevent() {
     setEventName(rowData.eventname);
     setTime(rowData.time);
     setdate(rowData.date);
+    setstatus(rowData.status)
     setlocation(rowData.location);
     seteventdescription(rowData.eventdescription);
     setIcon({ bytes: '', filename: `${serverURL}/images/${rowData.icon}` });
@@ -75,7 +77,7 @@ export default function Displayallevent() {
     const formData = new FormData();
     formData.append('id', id);
     formData.append('icon', icon.bytes);
-    const response = await postData('worlshops/edit_event_picture', formData);
+    const response = await postData('workshops/edit_event_picture', formData);
     Swal.fire({
       icon: response.status ? "success" : "error",
       toast: true,
@@ -114,6 +116,10 @@ export default function Displayallevent() {
       err = true;
     }
 
+    if (status.length==0){
+            handleError('status',"description should not be blank")
+            error=true
+        }
     seterror(newErrors);
     return err;
   };
@@ -127,6 +133,7 @@ export default function Displayallevent() {
   eventdescription,
   eventname,
   time,
+  status,
   date: formattedDate, // 👈 fixed here
   type,
   location
@@ -210,22 +217,56 @@ export default function Displayallevent() {
               fullWidth
             />
           </Grid>
-           <Grid size={12}>
+<Grid size={12}>
+            <FormControl fullWidth>
+              <InputLabel> type </InputLabel>
+              <Select
+               value={type || ""}
+
+error={Boolean(error?.type)}
+                onFocus={() => handleError("type", null)}
+                label="type"
+                onChange={(e) => settype(e.target.value)}
+              >  <MenuItem value="worskhop">workshops</MenuItem>
+                <MenuItem value="seminar">seminar</MenuItem>
+                <MenuItem value="webinar">webinar</MenuItem>
+                <MenuItem value="Festival">Festival</MenuItem>
+                <MenuItem value="Competetion">Competetion</MenuItem>
+                <MenuItem value="Conference">Conference</MenuItem>
+                <MenuItem value="Meetup">Meetup</MenuItem>
+                <MenuItem value="Celebration">Celebration</MenuItem>
+                <MenuItem value="Event">Event</MenuItem>
+                <MenuItem value="Training">Training</MenuItem>
+                <MenuItem value="Lounch">Lounch</MenuItem>
+
+              
+              </Select>
+              <FormHelperText>
+  <span className={classes.error}>{error?.type}</span> ✅
+</FormHelperText>
+
+            </FormControl>
+          </Grid>
+                      <Grid size={12}>
                       <FormControl fullWidth>
-                        <InputLabel> workshop Status</InputLabel>
-                        <Select
-                          value={type}
-                          error={error?.type}
-                          onFocus={() => handleError("type", null)}
-                          label="type"
-                          onChange={(e) => settype(e.target.value)}
-                        >  <MenuItem value="Latest">Latest</MenuItem>
-                          <MenuItem value="Upcoming">Upcoming</MenuItem>
-                          <MenuItem value="Old">Old</MenuItem>
+                        <InputLabel>Status </InputLabel>
+                       <Select
+  value={status || ""}
+
+                          error={Boolean(error?.status)}
+                          onFocus={() => handleError("status", null)}
+                          label="status"
+                          onChange={(e) => setstatus(e.target.value)}
+                        >  <MenuItem value="Upcoming">upcoming</MenuItem>
+                          <MenuItem value="ongoing">ongoing</MenuItem>
+                          <MenuItem value="cancelled">cancelled</MenuItem>
+                          <MenuItem value="Past">past</MenuItem>
+                          <MenuItem value="schedule">schedule</MenuItem>
+                         
                         
                         </Select>
                         <FormHelperText>
-            <span className={classes.error}>{error?.type}</span> ✅
+            <span className={classes.error}>{error?.status}</span> ✅
           </FormHelperText>
           
                       </FormControl>
@@ -277,13 +318,14 @@ export default function Displayallevent() {
     <MaterialTable
       title="Event List"
       columns={[
-        { title: 'Id', field: 'id' },
+        { title: 'Id', field: 'workshopid' },
         { title: 'Event Name', field: 'eventname' },
             { title: 'Event Time', field: 'time' },
                 { title: 'Event date', field: 'date' },
                     { title: 'Event type', field: 'type' },
                         { title: 'location', field: 'location' },
         { title: 'Event Description', field: 'eventdescription' },
+         { title: 'status', field: 'status' },
         {
           title: 'Icon',
           render: rowData => <img src={`${serverURL}/images/${rowData.icon}`} width={30} alt="event-icon" />
