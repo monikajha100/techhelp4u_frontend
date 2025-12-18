@@ -1,5 +1,5 @@
 import axios from 'axios'
-const serverURL='http://localhost:5000'
+const serverURL='https://techhelp4u-backend-m2.onrender.com'
 const token=localStorage.getItem('TOKEN')
 const config = {
     headers: { Authorization: `${token}` }
